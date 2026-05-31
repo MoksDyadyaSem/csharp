@@ -1,0 +1,15 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## OS
+Thumbs.db
+.DS_Store
+
+## Local
+exam_text.txt
+*.docx
+publish-test/
