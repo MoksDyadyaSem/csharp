@@ -38,23 +38,18 @@ Invoke-RestMethod http://localhost:5000/api/health
 
 > На Windows без ASP.NET Core 6 runtime в `ExamApi.csproj` включён `RollForward=Major` — приложение запустится на .NET 8. На Linux VM нужен `aspnetcore-runtime-6.0`.
 
-## Деплой на Ubuntu
+## Деплой на Ubuntu (экзамен)
 
-Пошаговая инструкция: [DEPLOY.md](DEPLOY.md)
+**Главный документ:** [GUIDE.md](GUIDE.md) — полная пошаговая инструкция для **ручного** деплоя + теория (systemd, nginx, права, порты).
 
-Кратко:
-
-```bash
-git clone {repo-url} ~/app
-cd ~/app
-./deploy/deploy.sh $(whoami)
-```
+Краткая шпаргалка команд: [DEPLOY.md](DEPLOY.md)
 
 ## Структура проекта
 
 ```
 ExamApi/           — исходники API
-deploy/            — systemd + nginx + deploy.sh
+deploy/            — шаблоны systemd + nginx
 scripts/           — demo-windows.ps1
-DEPLOY.md          — шпаргалка для экзамена
+GUIDE.md           — полный гайд: теория + ручной деплой
+DEPLOY.md          — краткая шпаргалка команд
 ```
