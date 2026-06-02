@@ -9,7 +9,7 @@
 ```bash
 wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb && sudo apt update
-sudo apt install -y aspnetcore-runtime-6.0 dotnet-sdk-6.0 nginx git
+sudo apt install -y aspnetcore-runtime-8.0 dotnet-sdk-8.0 nginx git
 dotnet --list-runtimes
 ```
 

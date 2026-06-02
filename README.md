@@ -1,6 +1,6 @@
 # Exam API — Book / Author REST
 
-Простой ASP.NET Core 6 Web API для экзамена по Linux.
+Простой ASP.NET Core 8 Web API для экзамена по Linux.
 
 ## Требования экзамена
 
@@ -36,13 +36,13 @@ Invoke-RestMethod http://localhost:5000/api/health
 .\scripts\demo-windows.ps1 -VmIp localhost -Port 5000
 ```
 
-> На Windows без ASP.NET Core 6 runtime в `ExamApi.csproj` включён `RollForward=Major` — приложение запустится на .NET 8. На Linux VM нужен `aspnetcore-runtime-6.0`.
+> На Linux VM нужен `aspnetcore-runtime-8.0`.
 
 ## Деплой на Ubuntu (экзамен)
 
-**Главный документ:** [GUIDE.md](GUIDE.md) — полная пошаговая инструкция для **ручного** деплоя + теория (systemd, nginx, права, порты).
+**Главное руководство A→Я:** [DEPLOY_FULL.md](DEPLOY_FULL.md)
 
-Краткая шпаргалка команд: [DEPLOY.md](DEPLOY.md)
+Теория и разбор: [GUIDE.md](GUIDE.md) · Краткая шпаргалка: [DEPLOY.md](DEPLOY.md)
 
 ## Структура проекта
 
@@ -50,6 +50,8 @@ Invoke-RestMethod http://localhost:5000/api/health
 ExamApi/           — исходники API
 deploy/            — шаблоны systemd + nginx
 scripts/           — demo-windows.ps1
-GUIDE.md           — полный гайд: теория + ручной деплой
-DEPLOY.md          — краткая шпаргалка команд
+GUIDE.md           — теория + разбор команд
+DEPLOY_FULL.md     — руководство A→Я (от user до curl)
+exam.txt           — команды подряд (шпаргалка)
+DEPLOY.md          — краткая шпаргалка
 ```

@@ -1,29 +1,38 @@
-# Пример истории команд для экзамена (Ubuntu VM)
-# На VM после деплоя: history > ~/exam-deploy-history.txt
+# Подключение с Windows
+ssh exam@{vm-ip}
 
-# Блок B: установка
-wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+# --- Пакеты (Ubuntu 24.04) ---
+wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update
-sudo apt install -y aspnetcore-runtime-8.0 dotnet-sdk-8.0 nginx git
+sudo apt install -y git nginx dotnet-sdk-8.0
+
+# проверка
+git --version
+nginx -v
 dotnet --list-runtimes
 
-# Блок C: clone
+# --- Клон репозитория в ~/app ---
 mkdir -p ~/app
 cd ~/app
-git clone https://github.com/YOUR_USER/exam-api.git .
+git clone {repo-url} .
 
-# Блок D–F: deploy (или ./deploy/deploy.sh $(whoami))
+# --- Сборка в /var/www/app ---
 sudo mkdir -p /var/www/app
-dotnet publish ~/app/ExamApi/ExamApi.csproj -c Release -o /var/www/app
+sudo dotnet publish ~/app/ExamApi/ExamApi.csproj -c Release -o /var/www/app
 sudo chown -R www-data:www-data /var/www/app
 sudo chmod -R 755 /var/www/app
+ls -la /var/www/app
+
+# --- systemd ---
 sudo cp ~/app/deploy/exam-api.service /etc/systemd/system/exam-api.service
 sudo systemctl daemon-reload
 sudo systemctl enable exam-api
 sudo systemctl start exam-api
 sudo systemctl status exam-api
 curl http://127.0.0.1:5000/api/health
+
+# --- nginx ---
 sudo cp ~/app/deploy/nginx-exam-api.conf /etc/nginx/sites-available/exam-api
 sudo ln -sf /etc/nginx/sites-available/exam-api /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
@@ -31,4 +40,9 @@ sudo nginx -t
 sudo systemctl reload nginx
 curl http://localhost/api/health
 
+# --- проверка с Windows (подставь IP VPS) ---
+curl.exe http://{vm-ip}/api/health
+curl.exe http://{vm-ip}/api/authors
+
+# --- история для сдачи ---
 history > ~/exam-deploy-history.txt

@@ -27,12 +27,12 @@
 
 | Требование | Что это значит на практике |
 |------------|----------------------------|
-| Web API на .NET 6 | Проект `ExamApi`, target `net6.0` |
+| Web API на .NET 8 | Проект `ExamApi`, target `net8.0` |
 | 2 сущности, 2 контроллера | `Author`, `Book` + контроллеры для них |
 | Health Check контроллер | `GET /api/health` → JSON со статусом |
 | Без БД | Данные в памяти (`List<>`) |
 | Код на GitHub | Публичный репозиторий |
-| .NET 6 на VM | `aspnetcore-runtime-6.0` |
+| .NET 8 на VM | `aspnetcore-runtime-8.0` |
 | Clone в `/home/{user}/app` | Исходники в домашней папке |
 | Release в `/var/www/app` (755) | Собранные dll, права `www-data` |
 | systemd | Сервис запускает `dotnet ExamApi.dll` |
@@ -79,8 +79,8 @@
 
 | | Java/Kotlin | .NET |
 |---|-------------|------|
-| Компилятор + инструменты | JDK | **SDK** (`dotnet-sdk-6.0`) |
-| Только запуск | JRE | **Runtime** (`aspnetcore-runtime-6.0`) |
+| Компилятор + инструменты | JDK | **SDK** (`dotnet-sdk-8.0`) |
+| Только запуск | JRE | **Runtime** (`aspnetcore-runtime-8.0`) |
 | Локальная разработка | JDK | SDK |
 | Production-сервер | JRE достаточно | Runtime достаточно |
 
@@ -327,7 +327,7 @@ uname -a          # → Ubuntu ...
 
 ---
 
-### Шаг 2. Установи .NET 6, Nginx, Git
+### Шаг 2. Установи .NET 8, Nginx, Git
 
 Делается **один раз** на чистой VM.
 
@@ -337,13 +337,13 @@ uname -a          # → Ubuntu ...
 wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update
-sudo apt install -y aspnetcore-runtime-6.0 dotnet-sdk-6.0 nginx git
+sudo apt install -y aspnetcore-runtime-8.0 dotnet-sdk-8.0 nginx git
 ```
 
 | Пакет | Зачем |
 |-------|-------|
-| `aspnetcore-runtime-6.0` | Запуск `dotnet ExamApi.dll` |
-| `dotnet-sdk-6.0` | `dotnet publish` на VM |
+| `aspnetcore-runtime-8.0` | Запуск `dotnet ExamApi.dll` |
+| `dotnet-sdk-8.0` | `dotnet publish` на VM |
 | `nginx` | Reverse proxy :80 → :5000 |
 | `git` | `git clone` с GitHub |
 
@@ -353,7 +353,7 @@ sudo apt install -y aspnetcore-runtime-6.0 dotnet-sdk-6.0 nginx git
 dotnet --list-runtimes
 ```
 
-Ожидаешь строку: `Microsoft.AspNetCore.App 6.x.x`
+Ожидаешь строку: `Microsoft.AspNetCore.App 8.x.x`
 
 **Проверка Nginx:**
 
@@ -438,7 +438,7 @@ curl http://127.0.0.1:5000/api/authors
 
 JSON пришёл — отлично. **Ctrl+C** в терминале 1 — останови ручной процесс.
 
-> Если тут ошибка — не переходи к systemd. Смотри текст ошибки: часто «framework not found» = не установлен runtime 6.
+> Если тут ошибка — не переходи к systemd. Смотри текст ошибки: часто «framework not found» = не установлен runtime 8.
 
 ---
 
@@ -681,7 +681,7 @@ Get-History | Format-Table -AutoSize
 | `Connection refused` :5000 | `ss -tlnp \| grep 5000` | systemd не стартовал app |
 | `Permission denied` | `ls -la /var/www/app` | Неверный chown/chmod |
 | `dotnet: command not found` | `which dotnet` | Runtime не установлен |
-| `framework not found` | `dotnet --list-runtimes` | Нет `Microsoft.AspNetCore.App 6.x` |
+| `framework not found` | `dotnet --list-runtimes` | Нет `Microsoft.AspNetCore.App 8.x` |
 
 ### Команды перезапуска
 
@@ -749,7 +749,7 @@ sudo systemctl restart exam-api
 # === VM: установка (один раз) ===
 wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb && sudo apt update
-sudo apt install -y aspnetcore-runtime-6.0 dotnet-sdk-6.0 nginx git
+sudo apt install -y aspnetcore-runtime-8.0 dotnet-sdk-8.0 nginx git
 dotnet --list-runtimes
 
 # === VM: clone + publish ===

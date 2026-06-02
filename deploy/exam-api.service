@@ -8,6 +8,8 @@ ExecStart=/usr/bin/dotnet /var/www/app/ExamApi.dll
 Restart=always
 RestartSec=10
 User=www-data
+Environment=HOME=/var/www/app
+Environment=DOTNET_CLI_HOME=/var/www/app
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 
